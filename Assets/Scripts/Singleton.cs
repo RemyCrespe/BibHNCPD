@@ -1,35 +1,39 @@
-﻿/*******************************************
-** Aucouturier Romuald
-** 13-01-2020
-** 
-** Singleton
-** Sert pour l'instance de classe
-*******************************************/
-
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
+/*******************************
+** RICOU Julie
+** Vendredi 24 janvier
+** Singleton
+*******************************/
+
+
 public class Singleton<T> : MonoBehaviour where T : Singleton<T>
 {
+
     public static T P_instance { get; private set; }
 
     [SerializeField]
     private bool _dontDestroyOnLoad = false;
 
-    public void Awake()
-    {
-        if (P_instance != null)
+    protected virtual void Awake()
+    { // Start on Awake load
+        if (P_instance == null) // Check if Instance is null
         {
-            print("Vous essayer d'instancier une deuxieme instance d'un même type");
-            return;
+            P_instance = (T)this; // put this on the Instance
         }
-
-        P_instance = (T)this;
 
         if (_dontDestroyOnLoad)
         {
             DontDestroyOnLoad(this);
         }
+    }
+
+    protected virtual void OnDestroy()
+    { // For destroy the object
+        if (P_instance == this) // Checked if the instance is this
+            P_instance = null; // Put null on instance
     }
 }

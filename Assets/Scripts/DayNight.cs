@@ -18,13 +18,11 @@ using UnityEngine;
 *******************************/
 
 
-
 public class DayNight : MonoBehaviour
 {
-
     [SerializeField]
     float _dayDuration;
-
+    
     bool _isDay;
 
     [SerializeField]
@@ -59,7 +57,7 @@ public class DayNight : MonoBehaviour
 
     void Update()
     {
-        _timer += 1;
+        _timer += Time.deltaTime;
 
         transform.Rotate(new Vector3(180/(_dayDuration * 60),0,0));
 
