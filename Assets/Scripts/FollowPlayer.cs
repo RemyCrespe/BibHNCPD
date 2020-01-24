@@ -17,9 +17,14 @@ public class FollowPlayer : MonoBehaviour
 { 
     [SerializeField]
     GameObject _player;
-    
-    void Update()
+
+    [SerializeField]
+    [Range(0.01f, 1.0f)]
+    private float _smoothFactor = 0.5f;
+
+    void LateUpdate()
     {
-        transform.position = new Vector3(_player.transform.position.x, _player.transform.position.y, _player.transform.position.z);
+
+        transform.position = Vector3.Slerp(transform.position, _player.transform.position, _smoothFactor);
     }
 }
