@@ -3177,8 +3177,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b4ee1a054e1ae44c94816532b9f2335, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  audioMixer: {fileID: 24100000, guid: ccc310d1b9be91646a89e9fe8f75aaff, type: 2}
-  resolutionDropdown: {fileID: 107271995}
+  P_audioMixer: {fileID: 24100000, guid: ccc310d1b9be91646a89e9fe8f75aaff, type: 2}
+  P_resolutionDropdown: {fileID: 107271995}
 --- !u!1 &2077748338
 GameObject:
   m_ObjectHideFlags: 0
