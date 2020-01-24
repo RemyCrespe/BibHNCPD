@@ -1,17 +1,16 @@
-﻿using System.Collections;
+﻿/********************
+ * LEBLOND Antoine
+ * 20/01/2020
+ * LEBLOND Antoine
+ * Mouvements du joueur en fonction de la caméra, fonction de récupération des ressources
+ * Vitesse de déplacement, vitesse de minage
+ * ******************/
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    /********************
-     * LEBLOND Antoine
-     * 20/01/2020
-     * LEBLOND Antoine
-     * Mouvements du joueur en fonction de la caméra, fonction de récupération des ressources
-     * Vitesse de déplacement, vitesse de minage
-     * ******************/
-
     private CharacterController _characterController;
 
     [SerializeField]

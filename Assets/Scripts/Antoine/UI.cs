@@ -1,18 +1,17 @@
-﻿using System.Collections;
+﻿/********************
+ * LEBLOND Antoine
+ * 22/01/2020
+ * LEBLOND Antoine
+ * Affiche une image en fonction de l'entité visée, affichage du cooldown minage si on récupère une ressource, interaction entre les entités
+ * Image de la pioche, le slider du cooldown du minage, les textes des inventaires, le raycast et son point de collision
+ * ******************/
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class UI : MonoBehaviour
 {
-    /********************
-     * LEBLOND Antoine
-     * 22/01/2020
-     * LEBLOND Antoine
-     * Affiche une image en fonction de l'entité visée, affichage du cooldown minage si on récupère une ressource, interaction entre les entités
-     * Image de la pioche, le slider du cooldown du minage, les textes des inventaires, le raycast et son point de collision
-     * ******************/
-
     [SerializeField]
     private GameObject _player;
 

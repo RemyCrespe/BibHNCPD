@@ -1,17 +1,16 @@
-﻿using System.Collections;
+﻿/********************
+ * LEBLOND Antoine
+ * 20/01/2020
+ * LEBLOND Antoine
+ * Stock les quantités de ressource et les modifient
+ * Quantité de minerais et quantité de bois
+ * ******************/
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Inventory : MonoBehaviour
 {
-    /********************
-     * LEBLOND Antoine
-     * 20/01/2020
-     * LEBLOND Antoine
-     * Stock les quantités de ressource et les modifient
-     * Quantité de minerais et quantité de bois
-     * ******************/
-
     private int _nbPinkQuartz = 0;
     private int _nbIron = 0;
 

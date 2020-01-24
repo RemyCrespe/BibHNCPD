@@ -1,17 +1,16 @@
-﻿using System.Collections;
+﻿/********************
+ * LEBLOND Antoine
+ * 21/01/2020
+ * LEBLOND Antoine
+ * Déplacer la caméra avec la souris si on appuie sur clique droit
+ * Vitesse de rotation de la camera, position du joueur
+ * ******************/
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
-    /********************
-     * LEBLOND Antoine
-     * 21/01/2020
-     * LEBLOND Antoine
-     * Déplacer la caméra avec la souris si on appuie sur clique droit
-     * Vitesse de rotation de la camera, position du joueur
-     * ******************/
-
     [SerializeField]
     private Transform _playerTransform;
 
