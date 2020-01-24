@@ -1,47 +1,58 @@
-﻿/********************
- * LEBLOND Antoine
- * 20/01/2020
- * LEBLOND Antoine
- * Mouvements du joueur en fonction de la caméra, fonction de récupération des ressources
- * Vitesse de déplacement, vitesse de minage
- * ******************/
-
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    /********************
+     * LEBLOND Antoine
+     * 20/01/2020
+     * LEBLOND Antoine
+     * Mouvements du joueur en fonction de la caméra, fonction de récupération des ressources
+     * Vitesse de déplacement, vitesse de minage
+     * ******************/
+
     private CharacterController _characterController;
 
-    public float P_movementSpeed;
+    [SerializeField]
+    private float _movementSpeed;
+
+    [SerializeField]
+    private float _distanceToOre;
+
+    [SerializeField]
+    private float P_rotationSpeed;
+
+    [SerializeField]
+    private float P_speed;
+
+    [SerializeField]
+    private float P_gravity;
+
     Rigidbody _playerRigidbody;
     CapsuleCollider _playerCollider;
 
-    public float P_distanceToOre;
     public float P_pickupSpeed;
 
-    float _moveHorizontal;
-    float _moveVertical;
+    private float _moveHorizontal;
+    private float _moveVertical;
 
-    public float P_rotationSpeed;
-    public float P_speed;
-
-    public float P_gravity;
     private Vector3 _moveDir = Vector3.zero;
 
     public bool P_isPicking = false;
 
+    Inventory _playerInventory;
+
     void Start()
     {
         _playerRigidbody = GetComponent<Rigidbody>();
-        _playerCollider = GetComponent<CapsuleCollider>();
         _characterController = GetComponent<CharacterController>();
+        _playerInventory = GetComponent<Inventory>();
     }
 
     void Update()
     {
-        if (P_isPicking) //If the player is mining, freeze is movement
+        if (P_isPicking)
         {
             _moveHorizontal = 0;
             _moveVertical = 0;
@@ -78,14 +89,14 @@ public class PlayerController : MonoBehaviour
         _characterController.Move(_moveDir * Time.deltaTime);
     }
 
-    public bool IsCloseToEntity(RaycastHit target) //This function check if the Player is near the ressource when he passes the mouse over it
+    public bool IsCloseToEntity(RaycastHit target)
     {
         Vector3 _closestPoint1 = target.collider.ClosestPointOnBounds(transform.position);
-        Vector3 _closestPoint2 = _playerCollider.ClosestPointOnBounds(target.transform.position);
+        Vector3 _closestPoint2 = _characterController.ClosestPointOnBounds(target.transform.position);
         
         float _targetDistance = Vector3.Distance(_closestPoint1, _closestPoint2);
 
-        if (_targetDistance <= P_distanceToOre)
+        if (_targetDistance <= _distanceToOre)
         {
             return true;
         }
@@ -97,34 +108,37 @@ public class PlayerController : MonoBehaviour
 
     public void PickupRessource(RaycastHit ressource)
     {
-        StartCoroutine(PickupCooldown(ressource));
-        P_isPicking = true;
+        if (!P_isPicking)
+        {
+            StartCoroutine(PickupCooldown(ressource));
+            P_isPicking = true;
+        }
     }
 
-    public IEnumerator PickupCooldown(RaycastHit ressource) //This fonction after an amount of time add a random number of a ressource type in inventory, then destroy the ressource
+    private IEnumerator PickupCooldown(RaycastHit ressource)
     {
         yield return new WaitForSeconds(P_pickupSpeed);
-        switch (ressource.collider.name)
+        switch (ressource.collider.tag)
         {
-            case "PinkIron":
-                GetComponent<Inventory>().ModifyRessourceAmount(1);
+            case "Pink Quartz":
+                _playerInventory.PickupRessource(1);
                 break;
             case "Iron":
-                GetComponent<Inventory>().ModifyRessourceAmount(2);
+                _playerInventory.PickupRessource(2);
                 break;
         }
         P_isPicking = false;
         Destroy(ressource.transform.gameObject);
     }
 
-    public void DropRessourceToTarget(RaycastHit target) //Put all the ressource of the player in the inventory of the target
+    public void AddRessourceToTarget(RaycastHit target)
     {
-        Inventory inventory = target.transform.gameObject.GetComponent<Inventory>();
-        inventory._nbPinkOre += GetComponent<Inventory>()._nbPinkOre;
-        inventory._nbIron += GetComponent<Inventory>()._nbIron;
-        GetComponent<Inventory>()._nbPinkOre = 0;
-        GetComponent<Inventory>()._nbIron = 0;
-        print(inventory._nbPinkOre);
-        print(inventory._nbIron);
+        Inventory _targetInventory = target.transform.gameObject.GetComponent<Inventory>();
+        _targetInventory.AddRessource(1, _playerInventory.GetNbRessource(1));
+        _targetInventory.AddRessource(2, _playerInventory.GetNbRessource(2));
+        _playerInventory.SetRessource(1,0);
+        _playerInventory.SetRessource(2,0);
+        print(_targetInventory.GetNbRessource(1));
+        print(_targetInventory.GetNbRessource(1));
     }
 }
