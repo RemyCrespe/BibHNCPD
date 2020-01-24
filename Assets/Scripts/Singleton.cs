@@ -2,14 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-
-/*******************************
-** RICOU Julie
-** Vendredi 24 janvier
-** Singleton
-*******************************/
-
-
 public class Singleton<T> : MonoBehaviour where T : Singleton<T>
 {
 
