@@ -5,14 +5,12 @@
  * Déplacer la caméra avec la souris si on appuie sur clique droit
  * Vitesse de rotation de la camera, position du joueur
  * ******************/
-
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
-
     [SerializeField]
     private Transform _playerTransform;
 
@@ -29,17 +27,17 @@ public class CameraController : MonoBehaviour
 
     private bool _rotateAroundPlayer = true;
 
-    void Start()
+	void Start ()
     {
-        _cameraOffset = transform.position - _playerTransform.position;
-    }
-
-    void LateUpdate()
+        _cameraOffset = transform.position - _playerTransform.position;	
+	}
+	
+	void LateUpdate ()
     {
         if (_rotateAroundPlayer && Input.GetMouseButton(1))
         {
             Quaternion camTurnAngle = Quaternion.AngleAxis(Input.GetAxis("Mouse X") * _rotationsSpeed, Vector3.up);
-            _cameraOffset = camTurnAngle * _cameraOffset;
+            _cameraOffset = camTurnAngle * _cameraOffset; 
         }
 
         Vector3 newPos = _playerTransform.position + _cameraOffset;
@@ -50,5 +48,5 @@ public class CameraController : MonoBehaviour
         {
             transform.LookAt(_playerTransform);
         }
-    }
+	}
 }

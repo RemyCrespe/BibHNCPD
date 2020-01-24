@@ -3,9 +3,8 @@
  * 22/01/2020
  * LEBLOND Antoine
  * Affiche une image en fonction de l'entité visée, affichage du cooldown minage si on récupère une ressource, interaction entre les entités
- * Image de la pioche, hache, le slider du cooldown du minage, les textes des inventaires, le raycast et son point de collision
+ * Image de la pioche, le slider du cooldown du minage, les textes des inventaires, le raycast et son point de collision
  * ******************/
-
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -13,96 +12,116 @@ using UnityEngine.UI;
 
 public class UI : MonoBehaviour
 {
-    public GameObject P_player;
+    [SerializeField]
+    private GameObject _player;
 
-    public Sprite P_pickaxeSprite;
-    public Sprite P_baseSprite;
-    public Sprite P_dialogueSprite;
+    [SerializeField]
+    private Sprite _pickaxeSprite;
 
-    public GameObject P_interactiveImage;
+    [SerializeField]
+    private Sprite _baseSprite;
 
-    public GameObject P_miningCooldown;
+    [SerializeField]
+    private Sprite _dialogueSprite;
 
-    public Text P_oreInventory;
-    public Text P_woodInventory;
+    [SerializeField]
+    private GameObject _interactiveImage;
+
+    [SerializeField]
+    private GameObject _miningCooldown;
+
+    [SerializeField]
+    private Text _oreInventory;
+
+    [SerializeField]
+    private Text _woodInventory;
+
+    PlayerController _playerController;
+    Inventory _playerInventory;
+    Slider _miningCooldownSlider;
 
     Ray ray;
     RaycastHit _hit;
 
+    void Start()
+    {
+        _playerController = _player.GetComponent<PlayerController>();
+        _playerInventory = _player.GetComponent<Inventory>();
+        _miningCooldownSlider = _miningCooldown.GetComponent<Slider>();
+    }
+
     void Update()
     {
-        if (P_player.GetComponent<PlayerController>().P_isPicking) //If the player is picking, display the cooldown
+        if (_playerController.P_isPicking)
         {
-            P_miningCooldown.SetActive(true);
-            P_miningCooldown.GetComponent<Slider>().value += 1 / P_player.GetComponent<PlayerController>().P_pickupSpeed * Time.deltaTime; //Increment slider value with time and mining speed
+            _miningCooldown.SetActive(true);
+            _miningCooldownSlider.value += 1 / _playerController.P_pickupSpeed * Time.deltaTime;
         }
-        else //If not, don't display the cooldown
+        else
         {
-            P_miningCooldown.SetActive(false); 
-            P_miningCooldown.GetComponent<Slider>().value = 0;
+            _miningCooldown.SetActive(false);
+            _miningCooldownSlider.value = 0;
         }
 
-        P_oreInventory.text = "Pink Iron : " + P_player.GetComponent<Inventory>()._nbPinkOre.ToString(); //Simple inventory UI for ores
-        P_woodInventory.text = "Iron : " + P_player.GetComponent<Inventory>()._nbIron.ToString(); //Simple inventory UI for wood
+        _oreInventory.text = "Pink Quartz : " + _playerInventory.GetNbRessource(1).ToString();
+        _woodInventory.text = "Iron : " + _playerInventory.GetNbRessource(2).ToString();
 
-        Vector2 _mousePosition = new Vector2(Input.mousePosition.x, Input.mousePosition.y); //Check the mouse position
+        Vector2 _mousePosition = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
 
-        P_interactiveImage.transform.position = _mousePosition; //Display tool image at the mouse position
+        _interactiveImage.transform.position = _mousePosition;
 
-        ray = Camera.main.ScreenPointToRay(Input.mousePosition); //Return the ray going from the camera to the mouse position
+        ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
         if (Physics.Raycast(ray, out _hit))
         {
-            if (_hit.transform.gameObject.layer == LayerMask.NameToLayer("Ressource") || _hit.transform.gameObject.layer == LayerMask.NameToLayer("Base") || _hit.transform.gameObject.layer == LayerMask.NameToLayer("NPC"))
+            if (_hit.transform.gameObject.layer == LayerMask.NameToLayer("Ressource") || _hit.transform.gameObject.layer == LayerMask.NameToLayer("Base") || _hit.transform.gameObject.layer == LayerMask.NameToLayer("NPC")) //Layer Ressource, NPC, Base
             {
-                switch (_hit.collider.name) //Change image depending on the object name
+                switch (_hit.collider.tag)
                 {
-                    case "PinkIron":
-                        P_interactiveImage.GetComponent<Image>().sprite = P_pickaxeSprite;
-                        break;
+                    case "Pink Quartz":
                     case "Iron":
-                        P_interactiveImage.GetComponent<Image>().sprite = P_pickaxeSprite;
+                        _interactiveImage.GetComponent<Image>().sprite = _pickaxeSprite;
                         break;
                     case "Base":
-                        P_interactiveImage.GetComponent<Image>().sprite = P_baseSprite;
+                        _interactiveImage.GetComponent<Image>().sprite = _baseSprite;
                         break;
-                    case "NPCRobot":
-                        P_interactiveImage.GetComponent<Image>().sprite = P_dialogueSprite;
+                    case "NPC":
+                        _interactiveImage.GetComponent<Image>().sprite = _dialogueSprite;
                         break;
                 }
-                P_interactiveImage.SetActive(true);
-                if (P_player.GetComponent<PlayerController>().IsCloseToEntity(_hit)) //If the player is close to the target he is pointing
+                _interactiveImage.SetActive(true);
+                if (_playerController.IsCloseToEntity(_hit))
                 {
-                    P_interactiveImage.GetComponent<Image>().color = new Color32(0, 0, 0, 255); //Change the alpha
+                    _interactiveImage.GetComponent<Image>().color = new Color32(0, 0, 0, 255);
                     if (Input.GetMouseButtonDown(1))
                     {
-                        switch (_hit.transform.gameObject.layer) //Depending on the layer of the target, do something
+                        switch (_hit.transform.gameObject.layer)
                         {
-                            case 8: //Layer Base
-                                P_player.GetComponent<PlayerController>().DropRessourceToTarget(_hit);
-                                break;
                             case 11: //Layer Ressource
-                                P_player.GetComponent<PlayerController>().PickupRessource(_hit);
+                                _playerController.PickupRessource(_hit);
                                 break;
-                            case 9: //Layer PNJ
+                            case 9: //Layer NPC
                                 _hit.transform.gameObject.GetComponent<NPC>().Dialogue();
+                                break;
+                            case 8: //Layer Base
+                                _playerController.AddRessourceToTarget(_hit);
                                 break;
                         }
                     }
                 }
                 else
                 {
-                    P_interactiveImage.GetComponent<Image>().color = new Color32(0, 0, 0, 100); //If the player is too far, change alpha
+                    _interactiveImage.GetComponent<Image>().color = new Color32(0, 0, 0, 100);
                 }
             }
             else
             {
-                P_interactiveImage.SetActive(false);
+                _interactiveImage.SetActive(false);
             }
         }
         else
         {
-            P_interactiveImage.SetActive(false);
+            _interactiveImage.SetActive(false);
         }
     }
 }
