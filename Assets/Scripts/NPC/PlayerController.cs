@@ -1,10 +1,11 @@
 ﻿/********************
- * LEBLOND Antoine
- * 20/01/2020
- * LEBLOND Antoine
- * Mouvements du joueur en fonction de la caméra, fonction de récupération des ressources
- * Vitesse de déplacement, vitesse de minage
- * ******************/
+     * LEBLOND Antoine
+     * 20/01/2020
+     * LEBLOND Antoine
+     * Mouvements du joueur en fonction de la caméra, fonction de récupération des ressources, gestion des animations du joueur
+     * Vitesse de déplacement, vitesse de minage
+     * ******************/
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -14,24 +15,25 @@ public class PlayerController : MonoBehaviour
     private CharacterController _characterController;
 
     [SerializeField]
-    private float _movementSpeed;
+    private float _movementSpeed = 3.0f;
 
     [SerializeField]
-    private float _distanceToOre;
+    private float _distanceToOre = 2.0f;
 
     [SerializeField]
-    private float P_rotationSpeed;
+    private float _rotationSpeed = 240.0f;
 
     [SerializeField]
-    private float P_speed;
+    private float _speed = 5.0f;
 
     [SerializeField]
-    private float P_gravity;
+    private float _gravity = 20.0f;
 
     Rigidbody _playerRigidbody;
     CapsuleCollider _playerCollider;
+    Animator _playerAnimator;
 
-    public float P_pickupSpeed;
+    public float P_pickupSpeed = 3.0f;
 
     private float _moveHorizontal;
     private float _moveVertical;
@@ -47,6 +49,7 @@ public class PlayerController : MonoBehaviour
         _playerRigidbody = GetComponent<Rigidbody>();
         _characterController = GetComponent<CharacterController>();
         _playerInventory = GetComponent<Inventory>();
+        _playerAnimator = GetComponent<Animator>();
     }
 
     void Update()
@@ -55,11 +58,22 @@ public class PlayerController : MonoBehaviour
         {
             _moveHorizontal = 0;
             _moveVertical = 0;
+            _playerAnimator.SetBool("IsPicking", true);
         }
         else
         {
             _moveHorizontal = Input.GetAxisRaw("Horizontal");
             _moveVertical = Input.GetAxisRaw("Vertical");
+            _playerAnimator.SetBool("IsPicking", false);
+        }
+
+        if (_moveHorizontal != 0 || _moveVertical != 0)
+        {
+            _playerAnimator.SetBool("IsMoving", true);
+        }
+        else
+        {
+            _playerAnimator.SetBool("IsMoving", false);
         }
 
         // Calculate the forward vector
@@ -74,16 +88,16 @@ public class PlayerController : MonoBehaviour
         // Get Euler angles
         float _turnAmount = Mathf.Atan2(move.x, move.z);
 
-        transform.Rotate(0, _turnAmount * P_rotationSpeed * Time.deltaTime, 0);
+        transform.Rotate(0, _turnAmount * _rotationSpeed * Time.deltaTime, 0);
 
         if (_characterController.isGrounded)
         {
             _moveDir = transform.forward * move.magnitude;
 
-            _moveDir *= P_speed;
+            _moveDir *= _speed;
         }
 
-        _moveDir.y -= P_gravity * Time.deltaTime;
+        _moveDir.y -= _gravity * Time.deltaTime;
 
         _characterController.Move(_moveDir * Time.deltaTime);
     }
@@ -92,7 +106,7 @@ public class PlayerController : MonoBehaviour
     {
         Vector3 _closestPoint1 = target.collider.ClosestPointOnBounds(transform.position);
         Vector3 _closestPoint2 = _characterController.ClosestPointOnBounds(target.transform.position);
-        
+
         float _targetDistance = Vector3.Distance(_closestPoint1, _closestPoint2);
 
         if (_targetDistance <= _distanceToOre)
@@ -120,10 +134,10 @@ public class PlayerController : MonoBehaviour
         switch (ressource.collider.tag)
         {
             case "Pink Quartz":
-                _playerInventory.PickupRessource(1);
+                _playerInventory.AddRessourceQuantity(0, Random.Range(1, 5));
                 break;
             case "Iron":
-                _playerInventory.PickupRessource(2);
+                _playerInventory.AddRessourceQuantity(1, Random.Range(1, 5));
                 break;
         }
         P_isPicking = false;
@@ -133,11 +147,11 @@ public class PlayerController : MonoBehaviour
     public void AddRessourceToTarget(RaycastHit target)
     {
         Inventory _targetInventory = target.transform.gameObject.GetComponent<Inventory>();
-        _targetInventory.AddRessource(1, _playerInventory.GetNbRessource(1));
-        _targetInventory.AddRessource(2, _playerInventory.GetNbRessource(2));
-        _playerInventory.SetRessource(1,0);
-        _playerInventory.SetRessource(2,0);
-        print(_targetInventory.GetNbRessource(1));
-        print(_targetInventory.GetNbRessource(1));
+        for (int i = 0; i < _targetInventory.GetRessourceTabSize(); i++)
+        {
+            _targetInventory.AddRessourceQuantity(i, _playerInventory.GetRessourceQuantity(i));
+            _playerInventory.SetRessourceQuantity(i, 0);
+            print(_targetInventory.GetRessourceQuantity(i));
+        }
     }
 }

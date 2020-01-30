@@ -1,68 +1,37 @@
 ﻿/********************
- * LEBLOND Antoine
- * 20/01/2020
- * LEBLOND Antoine
- * Stock les quantités de ressource et les modifient
- * Quantité de minerais et quantité de bois
- * ******************/
+     * LEBLOND Antoine
+     * 24/01/2020
+     * LEBLOND Antoine
+     * Stock les quantités de ressource avec une liste, possibilité de récupérer la quantité, de modifier la quantité
+     * Liste contenant les ressources, leur index représentant un type de ressource
+     * ******************/
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Inventory : MonoBehaviour
 {
-    private int _nbPinkQuartz = 0;
-    private int _nbIron = 0;
+    [SerializeField]
+    private List<Ressource> _ressourceTab = new List<Ressource>();
 
-    public int GetNbRessource(int ressourceIndex)
+    public int GetRessourceTabSize()
     {
-        switch (ressourceIndex)
-        {
-            default:
-                return 0;
-            case 1:
-                return _nbPinkQuartz;
-            case 2:
-                return _nbIron;
-        }
+        return _ressourceTab.Count;
     }
 
-    public void PickupRessource(int ressourceIndex) //Add a random value in a selected ressource type
+    public int GetRessourceQuantity(int index)
     {
-        switch (ressourceIndex)
-        {
-            case 1:
-                _nbPinkQuartz += Random.Range(1, 5);
-                break;
-            case 2:
-                _nbIron += Random.Range(1, 5);
-                break;
-        }
+        return _ressourceTab[index].GetQuantity();
     }
 
-    public void AddRessource(int ressourceIndex, int amount)
+    public void AddRessourceQuantity(int index, int amount)
     {
-        switch (ressourceIndex)
-        {
-            case 1:
-                _nbPinkQuartz += amount;
-                break;
-            case 2:
-                _nbIron += amount;
-                break;
-        }
+        _ressourceTab[index].AddQuantity(amount);
     }
 
-    public void SetRessource(int ressourceIndex, int value)
+    public void SetRessourceQuantity(int index, int amount)
     {
-        switch (ressourceIndex)
-        {
-            case 1:
-                _nbPinkQuartz = value;
-                break;
-            case 2:
-                _nbIron = value;
-                break;
-        }
+        _ressourceTab[index].SetQuantity(amount);
     }
 }
