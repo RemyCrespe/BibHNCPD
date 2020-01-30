@@ -7,6 +7,8 @@ TagManager:
   - Base
   - NPC
   - Iron
+  - Pink Quartz
+  - Ennemy
   layers:
   - Default
   - TransparentFX

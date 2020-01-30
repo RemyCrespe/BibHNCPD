@@ -11,6 +11,7 @@
 
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class NpcManager : Singleton<NpcManager>
@@ -63,13 +64,22 @@ public class NpcManager : Singleton<NpcManager>
         _tempRessourceToJobs = null;
     }
 
+    [SerializeField] private string _tagEnnemy;
     // Update is called once per frame
     void Update()
     {
-        //Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        //RaycastHit hit;
-        //if (Physics.Raycast(ray, out hit))
-        //{
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        RaycastHit hit;
+        if (Physics.Raycast(ray, out hit))
+        {
+            if (hit.transform.CompareTag(_tagEnnemy))
+            {
+                if (Input.GetMouseButtonDown(0))
+                {
+                    hit.transform.GetComponent<Ennemy>().EnnemiesDead();
+                }
+            }
+            
         //    if (((1 << hit.transform.gameObject.layer) & _maskNpc) != 0)
         //    {
         //        AutoNPC npc = hit.transform.gameObject.GetComponent<AutoNPC>();
@@ -93,7 +103,7 @@ public class NpcManager : Singleton<NpcManager>
         //    {
         //        PlayerGoToRecolt(hit.point);
         //    }
-        //}
+        }
 
         //if (Input.GetKeyDown(KeyCode.Escape))
         //{
@@ -101,66 +111,47 @@ public class NpcManager : Singleton<NpcManager>
         //}
     }
 
-    public void AddTaskForAutoNpc(List<CollectPoint> resourceList)
-    {
-        for (int i = 0; i < _npcList.Count; i++)
-        {
-            AutoNPC nPC = _npcList[i];
-            if (!nPC.P_goHome)
-            {
-                int takeRessource = Random.Range(0, resourceList.Count - 1);
-                if (nPC.GetCapacity() <= resourceList[takeRessource].GetValidRessource())
-                {
-                    nPC.MoveNpc(resourceList[takeRessource].transform.position);
-                    resourceList[takeRessource].AddResourceTake(nPC.GetCapacity());
-                }
-                else
-                {
-                    for (int y = 0; y < resourceList.Count; y++)
-                    {
-                        if (nPC.GetCapacity() <= resourceList[y].GetValidRessource())
-                        {
-                            nPC.MoveNpc(resourceList[y].transform.position);
-                            resourceList[y].AddResourceTake(nPC.GetCapacity());
-                        }
-                    }
-                }
-            }
-        }
-    }
-
     private void OnTriggerEnter(Collider other)
     {
-        if (((1 << other.gameObject.layer) & _maskNpc) != 0)
+        if (((1 << other.gameObject.layer) & _maskNpc) == 0)
         {
-            AutoNPC nPC = other.GetComponent<AutoNPC>();
-            if (nPC && nPC.P_inventory.GetCount() > 0)
-            {
-                Resource resources = nPC.P_inventory;
+            return;
+        }
 
-                int verif = VerifIfContaintRessource(resources);
-                if (verif != -1)
-                {
-                    _inventory[verif].GetResource(resources.GetCount());
-                }
-                else
-                {
-                    Resource newResources = new Resource();
+        AutoNPC nPC = other.GetComponent<AutoNPC>();
+        if (!nPC || nPC.P_inventory.GetCount() <= 0)
+        {
+            return;
+        }
 
-                    newResources.SetOreType(resources.GetOreType());
-                    newResources.SetResourceType(resources.GetResourceType());
-                    newResources.GetResource(resources.GetCount());
+        Resource resources = nPC.P_inventory;
 
-                    print(newResources.GetCount());
+        int verif = VerifIfContaintRessource(resources);
+        if (verif != -1)
+        {
+            _inventory[verif].GetResource(resources.GetCount());
+        }
+        else
+        {
+            Resource newResources = new Resource();
 
-                    _inventory.Add(newResources);
-                }
-            }
+            newResources.SetOreType(resources.GetOreType());
+            newResources.SetResourceType(resources.GetResourceType());
+            newResources.GetResource(resources.GetCount());
+
+            print(newResources.GetCount());
+
+            _inventory.Add(newResources);
         }
     }
 
     public void ReturnHome(ResourceType ressourcesType)
     {
+        foreach (var item in _npcList)
+        {
+            item.P_haveMision = false;
+        }
+
         GoAfterThePlayer(_home.position, ressourcesType);
     }
 
@@ -168,17 +159,19 @@ public class NpcManager : Singleton<NpcManager>
     {
         for (int i = 0; i < _inventory.Count; i++)
         {
-            if (_inventory[i].GetResourceType() == resource.GetResourceType())
+            if (_inventory[i].GetResourceType() != resource.GetResourceType())
             {
-                if (_inventory[i].GetResourceType() != ResourceType.Ores)
-                {
-                    return i;
-                }
+                continue;
+            }
+            
+            if (_inventory[i].GetResourceType() != ResourceType.Ores)
+            {
+                return i;
+            }
 
-                if (_inventory[i].GetOreType() == resource.GetOreType())
-                {
-                    return i;
-                }
+            if (_inventory[i].GetOreType() == resource.GetOreType())
+            {
+                return i;
             }
         }
 
@@ -206,25 +199,24 @@ public class NpcManager : Singleton<NpcManager>
 
     public void GoAfterThePlayer(Vector3 position, ResourceType ressourcesType)
     {
-        for (int i = 0; i < _npcList.Count; i++)
+        foreach (var t in _npcList)
         {
-            if (_npcList[i].P_npcJobs == _ressourcesToJobsDico[ressourcesType])
+            if (t.P_npcJobs != _ressourcesToJobsDico[ressourcesType] || t.P_goHome)
             {
-                Vector3 newDestination = GenerateApproximativePosition(position, _sizePosition);
-                _npcList[i].MoveNpc(newDestination);
+                continue;
             }
+            
+            Vector3 newDestination = GenerateApproximativePosition(position, _sizePosition);
+            t.MoveNpc(newDestination);
         }
     }
 
     private void AddSelectNpc(int id)
     {
-        for (int i = 0; i < _npcList.Count; i++)
+        foreach (var t in _npcList.Where(t => t.P_id == id))
         {
-            if (_npcList[i].P_id == id)
-            {
-                _npcList[i].Select();
-                _npcListSelect.Add(_npcList[i]);
-            }
+            t.Select();
+            _npcListSelect.Add(t);
         }
     }
 
@@ -239,47 +231,48 @@ public class NpcManager : Singleton<NpcManager>
 
     private void ResetNpcSelect()
     {
-        for (int i = 0; i < _npcListSelect.Count; i++)
+        foreach (var t in _npcListSelect)
         {
-            _npcListSelect[i].UnSelect();
+            t.UnSelect();
         }
 
         _npcListSelect.Clear();
     }
 
-    [SerializeField]
-    private float _distanceHelpPlayer = 10;
-
-    public void PlayerGoToRecolt(Vector3 position)
+    [SerializeField] private List<float> _coeffChangeSpeedWeather;
+    public void ChangeSpeedByEvent(int id)
     {
-        for (int i = 0; i < _npcList.Count; i++)
+        if (_coeffChangeSpeedWeather[id] == 1)
         {
-            if (Vector3.Distance(_npcList[i].transform.position, position) <= _distanceHelpPlayer)
-            {
-                Vector3 newDestination = GenerateApproximativePosition(position, _sizePosition);
-                _npcList[i].MoveNpc(newDestination);
-            }
+            return;
+        }
+        
+        foreach (var it in _npcList)
+        {
+            it.ChangeSpeed(_coeffChangeSpeedWeather[id], 31);
         }
     }
 
-    private bool NpcHaveTheGoodJob(NpcJobs jobs, ResourceType ressourcesType)
+    [SerializeField]
+    private float _distanceHelpPlayer = 10;
+    public void PlayerGoToRecolt(Vector3 position)
     {
-        if (ressourcesType == ResourceType.Ores)
+        foreach (var t in _npcList)
         {
-            return jobs == NpcJobs.Miner;
+            if (!(Vector3.Distance(t.transform.position, position) <= _distanceHelpPlayer))
+            {
+                continue;
+            }
+
+            Vector3 newDestination = GenerateApproximativePosition(position, _sizePosition);
+            t.MoveNpc(newDestination);
         }
-
-        if (ressourcesType == ResourceType.Wood)
-        {
-            return jobs == NpcJobs.Forester;
-        }
-
-
-        return false;
     }
 
     [SerializeField]
     private float _sizePosition = 0.5f;
+    // Permet de générer une position aléatoire dans une zone p our ne pas que tout les pnj
+    // soit au même endroit
     private Vector3 GenerateApproximativePosition(Vector3 position, float size)
     {
         Vector3 randomPos = new Vector3();
@@ -291,12 +284,6 @@ public class NpcManager : Singleton<NpcManager>
         randomPos.z = position.z + Random.Range(min, max);
 
         return randomPos;
-    }
-
-
-    public void AddNpc(AutoNPC npc)
-    {
-        _npcList.Add(npc);
     }
 }
 

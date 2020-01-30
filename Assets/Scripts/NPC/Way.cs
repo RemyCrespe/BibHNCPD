@@ -2,7 +2,7 @@
 ** Aucouturier Romuald
 ** 16-01-2020
 ** 
-** 17-01-2020
+** 24-01-2020
 ** 
 ** Resources
 ** la class abstrait pour créer tout les types
@@ -22,12 +22,16 @@ public class Way : MonoBehaviour
     private LayerMask _layerMask;
 
     private List<CollectPoint> _resourceList = new List<CollectPoint>();
-    [SerializeField]
+
     private bool _playerGoOnSource = false;
 
+    [SerializeField]
+    private Verif[] _verifRaycast;
 
     private void Start()
     {
+        // récuperer tout les enfants du gameObject et verifie si
+        // c'est bien un point de collect si oui rajoute dans la liste de gestion
         for (int i = 0; i < transform.childCount; i++)
         {
             Transform child = transform.GetChild(i);
@@ -38,49 +42,92 @@ public class Way : MonoBehaviour
                 _resourceList.Add(childRessources);
             }
         }
+
+        // creer le ray pour chaque possibiliter
+        foreach (var item in _verifRaycast)
+        {
+            item.CreateRay();
+        }
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void Update()
     {
-        if (other.name == "Player")
+        int position = 0;
+        if (_playerGoOnSource)
         {
-            _playerGoOnSource = !_playerGoOnSource;
-
-            if (_playerGoOnSource)
-            {
-                NpcManager.P_instance.GoAfterThePlayer(transform.position, _ressourcesType);
-            }
-            else
-            {
-                NpcManager.P_instance.ReturnHome(_ressourcesType);
-            }
+            position = 1;
         }
+        
+        Ray ray = _verifRaycast[position].P_Ray;
 
-        if (((1 << other.gameObject.layer) & _layerMask) != 0)
+        Debug.DrawRay(ray.origin, ray.direction * _verifRaycast[position].P_distance, Color.red);
+
+        RaycastHit hit;
+        if (Physics.Raycast(ray.origin, ray.direction * _verifRaycast[position].P_distance, out hit))
         {
-            AutoNPC nPC = other.GetComponent<AutoNPC>();
-            if (!nPC.P_goHome)
+            if (hit.transform.tag == "Player")
             {
-                int takeRessource = Random.Range(0, _resourceList.Count - 1);
-                if (nPC.GetCapacity() <= _resourceList[takeRessource].GetValidRessource())
+                if (!_playerGoOnSource)
                 {
-                    nPC.MoveNpc(_resourceList[takeRessource].transform.position);
-                    _resourceList[takeRessource].AddResourceTake(nPC.GetCapacity());
+                    NpcManager.P_instance.GoAfterThePlayer(transform.position, _ressourcesType);
                 }
                 else
                 {
-                    for (int y = 0; y < _resourceList.Count; y++)
+                    NpcManager.P_instance.ReturnHome(_ressourcesType);
+                }
+
+                _playerGoOnSource = !_playerGoOnSource;
+            }
+            else if (((1 << hit.transform.gameObject.layer) & _layerMask) != 0 && _playerGoOnSource)
+            {
+                AutoNPC nPC = hit.transform.GetComponent<AutoNPC>();
+                if (!nPC.P_haveMision)
+                {
+                    int takeRessource = Random.Range(0, _resourceList.Count - 1);
+                    if (nPC.GetCapacity() <= _resourceList[takeRessource].GetValidRessource())
                     {
-                        if (nPC.GetCapacity() <= _resourceList[y].GetValidRessource())
+                        nPC.AddCollectPoint(_resourceList[takeRessource]);
+                        _resourceList[takeRessource].AddResourceTake(nPC.GetCapacity());
+                    }
+                    else
+                    {
+                        for (int y = 0; y < _resourceList.Count; y++)
                         {
-                            nPC.MoveNpc(_resourceList[y].transform.position);
-                            _resourceList[y].AddResourceTake(nPC.GetCapacity());
+                            if (nPC.GetCapacity() <= _resourceList[y].GetValidRessource())
+                            {
+                                nPC.AddCollectPoint(_resourceList[y]);
+                            }
                         }
                     }
+
+                    nPC.P_haveMision = true;
                 }
             }
         }
     }
+}
 
-    // add possibility to verif the destination of player leave
+[System.Serializable]
+public class Verif
+{
+    public string P_name;
+
+    public Transform P_start;
+    public Transform P_end;
+
+    public float P_distance { get; private set; }
+    public Ray P_Ray { get; private set; }
+
+    // creer la distance pour la meme raison que le ray
+    private void CreateDistance()
+    {
+        P_distance = Vector3.Distance(P_start.position, P_end.position);
+    }
+
+    // Créer le ray pour ne pas le recréer à chaque frame
+    public void CreateRay()
+    {
+        P_Ray = new Ray(P_start.position, P_end.position - P_start.position);
+        CreateDistance();
+    }
 }
