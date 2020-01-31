@@ -18,12 +18,12 @@ using UnityEngine;
 *******************************/
 
 
-public class DayNight : MonoBehaviour
+public class DayNight : Singleton<DayNight>
 {
     [SerializeField]
     float _dayDuration;
     
-    bool _isDay;
+    public bool p_isDay;
 
     [SerializeField]
     GameObject[] _lights;
@@ -50,7 +50,7 @@ public class DayNight : MonoBehaviour
 
     void Start()
     {
-        _isDay = true;
+        p_isDay = true;
         _skyboxColor = new Vector3(0, 0, 0);
         _colorTemporaire = new Vector3(RenderSettings.fogColor.r, RenderSettings.fogColor.g, RenderSettings.fogColor.b);
     }
@@ -58,19 +58,18 @@ public class DayNight : MonoBehaviour
     void Update()
     {
         _timer += Time.deltaTime;
+        transform.Rotate(new Vector3(180/(_dayDuration/Time.deltaTime),0,0));
 
-        transform.Rotate(new Vector3(180/(_dayDuration * 60),0,0));
-
-        if(_timer >= _dayDuration * 60)
+        if(_timer >= _dayDuration)
         {
             _timer = 0;
-            _isDay = !_isDay;
+            p_isDay = !p_isDay;
             ChangeSky();
         }
 
-        if(_isDay)
+        if(p_isDay)
         {
-            if (_timer >= _dayDuration * 54 && _timer < _dayDuration * 56)
+            if (_timer >= _dayDuration - (6*(_dayDuration/60)) && _timer < _dayDuration - (4 * (_dayDuration / 60)))
             {
 
                 if (RenderSettings.fogEndDistance >= _fogMaxDistEvening) RenderSettings.fogEndDistance -= 10f;
@@ -83,7 +82,7 @@ public class DayNight : MonoBehaviour
                     _skyboxe.SetColor("_BaseColor", new Color(_skyboxColor.x, _skyboxColor.y, _skyboxColor.z));
                 }
             }
-            else if (_timer >= _dayDuration * 56)
+            else if (_timer >= _dayDuration - (4 * (_dayDuration / 60)))
             {
 
                 if(RenderSettings.fogEndDistance >= _fogMaxDistEvening) RenderSettings.fogEndDistance -= 10f;
@@ -96,7 +95,7 @@ public class DayNight : MonoBehaviour
                     _skyboxe.SetColor("_BaseColor", new Color(_skyboxColor.x, _skyboxColor.y, _skyboxColor.z));
                 }
             }
-            else if (_timer <= _dayDuration * 5)
+            else if (_timer <= _dayDuration - (55 * (_dayDuration / 60)))
             {
 
                 if (RenderSettings.fogEndDistance <= _fogMaxDistDay) RenderSettings.fogEndDistance += 10f;
@@ -109,7 +108,7 @@ public class DayNight : MonoBehaviour
                     _skyboxe.SetColor("_BaseColor", new Color(_skyboxColor.x, _skyboxColor.y, _skyboxColor.z));
                 }
             }
-            else if (_timer > _dayDuration * 5 && _timer <= _dayDuration * 8)
+            else if (_timer > _dayDuration - (55 * (_dayDuration / 60)) && _timer <= _dayDuration - (52 * (_dayDuration / 60)))
             {
 
                 if (RenderSettings.fogEndDistance <= _fogMaxDistDay) RenderSettings.fogEndDistance += 10f;
@@ -127,7 +126,7 @@ public class DayNight : MonoBehaviour
 
         else
         {
-            if (_timer >= _dayDuration * 54)
+            if (_timer >= _dayDuration - (6 * (_dayDuration / 60)))
             {
 
                 if (RenderSettings.fogEndDistance >= _fogMaxDistMorning) RenderSettings.fogEndDistance -= 10f;
@@ -140,7 +139,7 @@ public class DayNight : MonoBehaviour
                     _skyboxe.SetColor("_BaseColor", new Color(_skyboxColor.x, _skyboxColor.y, _skyboxColor.z));
                 }
             }
-            else if (_timer <= _dayDuration * 6)
+            else if (_timer <= _dayDuration - (54 * (_dayDuration / 60)))
             {
 
                 if (RenderSettings.fogEndDistance >= _fogMaxDistNight) RenderSettings.fogEndDistance -= 10f;
@@ -158,7 +157,7 @@ public class DayNight : MonoBehaviour
 
     void ChangeSky()
     {
-        if (_isDay)
+        if (p_isDay)
         {
             _dayDuration *= 2;
             RenderSettings.sun = _lights[0].GetComponent<Light>();

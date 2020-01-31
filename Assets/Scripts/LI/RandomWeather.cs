@@ -10,9 +10,8 @@ using UnityEngine;
 *******************************/
 
 
-public class RandomWeather : Singleton<RandomWeather>
+public class RandomWeather : MonoBehaviour
 {
-    bool _isDay;
 
     int[] _weather; //0 Rain, 1 SandStorm, 2 Clouds, 3 Clear
 
@@ -29,7 +28,6 @@ public class RandomWeather : Singleton<RandomWeather>
 
     void Start()
     {
-        _isDay = true;
         _currentWeather = 0;
         ChangeWeather();
     }
@@ -47,7 +45,6 @@ public class RandomWeather : Singleton<RandomWeather>
         int _lastWeather = _currentWeather;
         while (_lastWeather == _currentWeather) _currentWeather = Random.Range(0, 4);
         _weatherObjects[_currentWeather].SetActive(true);
-        print(_currentWeather);
         Invoke("EndWeather", Random.Range(_minTempsChangeWeather, _maxTempsChangeWeather));
     }
 

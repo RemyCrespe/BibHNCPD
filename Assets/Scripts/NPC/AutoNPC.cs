@@ -38,7 +38,7 @@ public class AutoNPC : MonoBehaviour
     public bool P_goHome { get; private set; }
     public bool P_haveMision = false;
 
-    private Animator _animator;
+    private Animator _NpcAnimator;
     private MeshRenderer _meshRenderer;
     private NavMeshAgent _agent;
 
@@ -52,7 +52,7 @@ public class AutoNPC : MonoBehaviour
         P_inventory = new Resource();
 
         // recuperztion de tout les composants necessaire
-        _animator = GetComponent<Animator>();
+        _NpcAnimator = GetComponent<Animator>();
         _meshRenderer = GetComponent<MeshRenderer>();
         _agent = GetComponent<NavMeshAgent>();
 
@@ -114,9 +114,13 @@ public class AutoNPC : MonoBehaviour
     {
         // change la destination du joueur avec une nouvelle position
         _agent.SetDestination(newPosition);
+        _destination = newPosition;
+        _moving = true;
+        _NpcAnimator.SetBool("IsMoving", _moving);
     }
 
-    
+    private Vector3 _destination;
+    private bool _moving = false;
     private void Update()
     {
         // verifie si le joueur mine et qu'il lui reste du temps
@@ -130,18 +134,39 @@ public class AutoNPC : MonoBehaviour
             EndMining(); // à fini de miner
         }
 
+        if (!_moving)
+        {
+            return;
+        }
+
+        Vector3 position = transform.position;
         // Si le joueur peut miner le script va vérifier la distance entre les deux
         if (_goMining)
         {
-            // si elle est plus petit lance le minage
-            float distance = Vector3.Distance(transform.position, _oreDestination);
-            if (distance <= _distanceMinerais)
+            float distanceMining = Vector3.Distance(position, _oreDestination);
+            if (!(distanceMining <= _distanceMinerais))
             {
-                StartMining(3); // lance le minage
-                _agent.ResetPath(); // ne lui donne plus de destination
-                _goMining = false; // ne bouge plus pour aller miner
+                return;
+            }
+
+            // si elle est plus petit lance le minage
+            StartMining(3); // lance le minage
+            _goMining = false; // ne bouge plus pour aller miner
+        }
+        else
+        {
+            float distanceMove = Vector3.Distance(position, _destination);
+            if (!(distanceMove <= 0.5f))
+            {
+                return;
             }
         }
+
+        print("end");
+
+        _agent.ResetPath(); // ne lui donne plus de destination
+        _moving = false; // ne permet de ne plus bouger
+        _NpcAnimator.SetBool("IsMoving", _moving); // n'a plus d'animation le pauvre
     }
 
     [SerializeField]
@@ -166,6 +191,8 @@ public class AutoNPC : MonoBehaviour
      */
     public void StartMining(float time)
     {
+        _NpcAnimator.SetBool("IsMoving", false);
+        _NpcAnimator.SetBool("IsPicking", true);
         _agent.ResetPath();
         _miningTime.enabled = true;
 
@@ -180,6 +207,8 @@ public class AutoNPC : MonoBehaviour
      */
     public void EndMining()
     {
+        _NpcAnimator.SetBool("IsPicking", false);
+        _NpcAnimator.SetBool("IsMoving", true);
         _miningTime.enabled = false;
 
         P_inventory.ChangeCount(_collectPoint.GetRessource(_resourceTake));
