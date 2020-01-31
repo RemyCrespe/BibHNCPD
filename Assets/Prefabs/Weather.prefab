@@ -23896,6 +23896,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 5291797643909735837}
     m_Modifications:
+    - target: {fileID: 7140691347608329741, guid: e96c94651c1f30d4ba30711dcafd59ce,
+        type: 3}
+      propertyPath: _dayDuration
+      value: 15
+      objectReference: {fileID: 0}
     - target: {fileID: 7140691347608329742, guid: e96c94651c1f30d4ba30711dcafd59ce,
         type: 3}
       propertyPath: m_LocalPosition.x
