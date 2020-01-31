@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: RobotLight2
-  m_Shader: {fileID: -6465566751694194690, guid: 10cad597a1700bd4b9d954888407a98d,
+  m_Name: RobotLightYellow
+  m_Shader: {fileID: -6465566751694194690, guid: 939adf62f3ff9c640af0e0cfc604dd64,
     type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
@@ -22,5 +22,5 @@ Material:
     m_TexEnvs: []
     m_Floats:
     - Vector1_32CA2FEE: -0.0004991971
-    - Vector1_4B4C2F5F: 1.5
+    - Vector1_4B4C2F5F: 2
     m_Colors: []
