@@ -21,7 +21,7 @@ public class SpawnManager : MonoBehaviour
 
     private void Awake()
     {
-        _nbRoom = GameManager.Instance._GMnbRoom;
+        _nbRoom = GameManager.P_instance._GMnbRoom;
     }
 
     private void Update()

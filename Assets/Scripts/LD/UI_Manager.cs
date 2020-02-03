@@ -15,7 +15,7 @@ public class UI_Manager : MonoBehaviour
 
     private void Update()
     { 
-        if (GameManager.Instance._enterTrigger && !GameManager.Instance.IsbtUse_down())
+        if (GameManager.P_instance._enterTrigger && !GameManager.P_instance.IsbtUse_down())
         {
             _txt.enabled = true;
         }
@@ -30,22 +30,22 @@ public class UI_Manager : MonoBehaviour
     {
 
         //affiche les boutons de sélection des rooms
-        if (GameManager.Instance._enterTrigger && GameManager.Instance.IsbtUse_down())
+        if (GameManager.P_instance._enterTrigger && GameManager.P_instance.IsbtUse_down())
         {
             if (GUI.Button(new Rect(200, 200, 60, 50), "Room 1"))
             {
-                GameManager.Instance._GMnbRoom = 1;
-                GameManager.Instance.LoadScene(_nameSceneDJ);
+                GameManager.P_instance._GMnbRoom = 1;
+                GameManager.P_instance.LoadScene(_nameSceneDJ);
             }
             if (GUI.Button(new Rect(270, 200, 60, 50), "Room 2"))
             {
-                GameManager.Instance._GMnbRoom = 2;
-                GameManager.Instance.LoadScene(_nameSceneDJ);
+                GameManager.P_instance._GMnbRoom = 2;
+                GameManager.P_instance.LoadScene(_nameSceneDJ);
             }
             if (GUI.Button(new Rect(340, 200, 60, 50), "Room 3"))
             {
-                GameManager.Instance._GMnbRoom = 3;
-                GameManager.Instance.LoadScene(_nameSceneDJ);
+                GameManager.P_instance._GMnbRoom = 3;
+                GameManager.P_instance.LoadScene(_nameSceneDJ);
             }
         }
     }

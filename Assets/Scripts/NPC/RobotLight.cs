@@ -6,7 +6,6 @@ public class RobotLight : MonoBehaviour
 {
     DayNight _dN;
     bool _isDay = false;
-    Light _light;
     public Material _lightMat;
 
     [SerializeField]
@@ -19,7 +18,6 @@ public class RobotLight : MonoBehaviour
     void Start()
     {
         _dN = DayNight.P_instance;
-        _light = GetComponent<Light>();
     }
 
     void Update()
@@ -31,10 +29,9 @@ public class RobotLight : MonoBehaviour
     {
         if (!_isDay)
         {
-            if (_light.intensity > 0)
+            if (_lightMat.GetFloat("Vector1_32CA2FEE") > 0)
             {
-                if (_lightMat.GetFloat("Vector1_32CA2FEE") > 0) _lightMat.SetFloat("Vector1_32CA2FEE", _lightMat.GetFloat("Vector1_32CA2FEE") - 0.0005f);
-                _light.intensity -= 0.2f;
+               _lightMat.SetFloat("Vector1_32CA2FEE", _lightMat.GetFloat("Vector1_32CA2FEE") - 0.0005f);
             }
             else
             {
@@ -43,10 +40,9 @@ public class RobotLight : MonoBehaviour
         }
         else
         {
-            if (_light.intensity < _maxIntensity)
+            if (_lightMat.GetFloat("Vector1_32CA2FEE") < _maxEdge)
             {
-                if (_lightMat.GetFloat("Vector1_32CA2FEE") < _maxEdge) _lightMat.SetFloat("Vector1_32CA2FEE", _lightMat.GetFloat("Vector1_32CA2FEE") + 0.0005f);
-                _light.intensity += 0.2f;
+                _lightMat.SetFloat("Vector1_32CA2FEE", _lightMat.GetFloat("Vector1_32CA2FEE") + 0.0005f);
             }
             else
             {
