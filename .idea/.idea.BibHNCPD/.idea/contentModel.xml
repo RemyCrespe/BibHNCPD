@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ContentModelStore">
+    <e p="C:\Users\Romua\.Rider2019.3\system\extResources" t="IncludeRecursive" />
+    <e p="C:\Users\Romua\.Rider2019.3\system\resharper-host\local\Transient\ReSharperHost\v193\SolutionCaches\_BibHNCPD.972304509.00" t="ExcludeRecursive" />
+    <e p="C:\Users\Romua\Desktop\BibHNCPD" t="IncludeRecursive">
+      <e p="Assembly-CSharp.csproj" t="IncludeRecursive" />
+      <e p="Assets" t="Include">
+        <e p="Script" t="Include">
+          <e p="Ressource.cs" t="Include" />
+        </e>
+        <e p="Scripts" t="Include">
+          <e p="GameManager.cs" t="Include" />
+          <e p="LD" t="Include">
+            <e p="perso_move.cs" t="Include" />
+            <e p="UI_Manager.cs" t="Include" />
+          </e>
+          <e p="LI" t="Include">
+            <e p="DayNight.cs" t="Include" />
+            <e p="FollowPlayer.cs" t="Include" />
+            <e p="MiniGameDissolve.cs" t="Include" />
+            <e p="RandomWeather.cs" t="Include" />
+            <e p="SpawnManager.cs" t="Include" />
+            <e p="UraniumLight.cs" t="Include" />
+          </e>
+          <e p="Manager" t="Include">
+            <e p="GameManager.cs" t="Include" />
+            <e p="InventoryManager.cs" t="Include" />
+            <e p="NpcManager.cs" t="Include" />
+            <e p="UIManager.cs" t="Include" />
+          </e>
+          <e p="NPC" t="Include">
+            <e p="AutoNPC.cs" t="Include" />
+            <e p="CameraController.cs" t="Include" />
+            <e p="Inventory.cs" t="Include" />
+            <e p="NPC.cs" t="Include" />
+            <e p="Pilleur" t="Include">
+              <e p="Ennemy.cs" t="Include" />
+            </e>
+            <e p="PlayerController.cs" t="Include" />
+            <e p="Ressource" t="Include">
+              <e p="CollectPoint.cs" t="Include" />
+            </e>
+            <e p="RobotLight.cs" t="Include" />
+            <e p="UI.cs" t="Include" />
+            <e p="Way.cs" t="Include" />
+          </e>
+          <e p="Singleton.cs" t="Include" />
+          <e p="UI" t="Include">
+            <e p="InventoryOpenClose.cs" t="Include" />
+            <e p="JaugeUsure.cs" t="Include" />
+            <e p="MainMenu.cs" t="Include" />
+            <e p="OptionMenu.cs" t="Include" />
+          </e>
+        </e>
+      </e>
+      <e p="BibHNCPD.sln" t="IncludeFlat" />
+      <e p="obj" t="ExcludeRecursive" />
+      <e p="Packages" t="ExcludeRecursive" />
+      <e p="Temp\bin" t="ExcludeRecursive" />
+    </e>
+  </component>
+</project>

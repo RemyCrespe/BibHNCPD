@@ -15,6 +15,9 @@ public class PlayerController : MonoBehaviour
     private CharacterController _characterController;
 
     [SerializeField]
+    private AudioSource _audioSource;
+
+    [SerializeField]
     private float _movementSpeed = 3.0f;
 
     [SerializeField]
@@ -80,7 +83,10 @@ public class PlayerController : MonoBehaviour
         Vector3 camForward_Dir = Vector3.Scale(Camera.main.transform.forward, new Vector3(1, 0, 1)).normalized;
         Vector3 move = _moveVertical * camForward_Dir + _moveHorizontal * Camera.main.transform.right;
 
-        if (move.magnitude > 1f) move.Normalize();
+        if (move.magnitude > 1f)
+        {
+            move.Normalize();
+        }
 
         // Calculate the rotation for the player
         move = transform.InverseTransformDirection(move);
@@ -93,8 +99,12 @@ public class PlayerController : MonoBehaviour
         if (_characterController.isGrounded)
         {
             _moveDir = transform.forward * move.magnitude;
-
+            _audioSource.Play();
             _moveDir *= _speed;
+        }
+        else
+        {
+            _audioSource.Stop();
         }
 
         _moveDir.y -= _gravity * Time.deltaTime;

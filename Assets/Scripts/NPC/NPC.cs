@@ -21,6 +21,9 @@ public class NPC : MonoBehaviour
 
     [SerializeField]
     private GameObject P_dialogueView;
+    
+    [SerializeField]
+    private AudioSource _audioSource;
 
     public void Dialogue()
     {
@@ -28,9 +31,11 @@ public class NPC : MonoBehaviour
         if (!P_dialogueView.activeSelf)
         {
             P_dialogueView.SetActive(true);
+            _audioSource.Play();
         }
         else
         {
+            _audioSource.Stop();
             P_dialogueView.SetActive(false);
         }
     }
