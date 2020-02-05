@@ -821,7 +821,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 8.200012, y: -170.1}
+  m_AnchoredPosition: {x: 8.200073, y: -170.09998}
   m_SizeDelta: {x: -503.1, y: -368.1}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1828505401040518285
@@ -874,7 +874,7 @@ GameObject:
   - component: {fileID: 1828505401130980690}
   - component: {fileID: 1828505401130980702}
   m_Layer: 5
-  m_Name: UI
+  m_Name: UI 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -976,15 +976,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25075cac21bf09846a523a0d2050bdcc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  P_player: {fileID: 0}
-  P_pickaxeSprite: {fileID: 21300000, guid: 76ed1d5d3bf0589429d1f10bc7dcfe81, type: 3}
-  P_axeSprite: {fileID: 21300000, guid: b165a54315e4a184a885f4c7c5aa8f4a, type: 3}
-  P_baseSprite: {fileID: 21300000, guid: 7c8441d51812f0743918d06c752e87a0, type: 3}
-  P_dialogueSprite: {fileID: 21300000, guid: 359596412e30f074c93e4fc875331b64, type: 3}
-  P_interactiveImage: {fileID: 1828505399120745419}
-  P_miningCooldown: {fileID: 1828505399294738687}
-  P_oreInventory: {fileID: 1828505399551651912}
-  P_woodInventory: {fileID: 1828505400218534756}
+  _player: {fileID: 0}
+  _pickaxeSprite: {fileID: 0}
+  _baseSprite: {fileID: 0}
+  _dialogueSprite: {fileID: 0}
+  _interactiveImage: {fileID: 0}
+  _miningCooldown: {fileID: 0}
+  _pinkQuartzInventory: {fileID: 0}
+  _ironInventory: {fileID: 0}
 --- !u!1 &1828505401219578443
 GameObject:
   m_ObjectHideFlags: 0

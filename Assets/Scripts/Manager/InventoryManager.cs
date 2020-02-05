@@ -33,24 +33,16 @@ public class InventoryManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        CaseUpdate(0, "coal");
+        CaseUpdate("coal");
     }
 
     // permet d'update la case ou le changement de visibiliter est à faire
-    public void CaseUpdate(int position, string name)
+    public void CaseUpdate(string name)
     {
-        _caseInventory[position].sprite = GetSpriteByName(name);
-    }
-
-    // permet d'avoir la bonne image en fonction du nom donner
-    private Sprite GetSpriteByName(string name)
-    {
-        foreach (var t in _listSprite.Where(t => t.P_name == name))
+        foreach (var it in _caseInventory.Where(it => it.sprite == null))
         {
-            return t.P_sprite;
+            it.sprite = _listSprite.Find(sp => sp.P_name == name).P_sprite;
         }
-
-        return _empty;
     }
 }
 

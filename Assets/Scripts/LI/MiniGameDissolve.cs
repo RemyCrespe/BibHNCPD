@@ -1,7 +1,7 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
 
 /*******************************
 ** RICOU Julie
@@ -14,19 +14,40 @@ using UnityEngine;
 *******************************/
 
 
-
 public class MiniGameDissolve : MonoBehaviour
 {
     public bool p_dissolve;
+    public bool p_unDissolve;
     float _dissolveState = 0;
-    void Update()
+
+    private Renderer _renderer;
+
+    private void Start()
     {
-        if (p_dissolve && _dissolveState <= 2.1f) Dissolve();
+        _renderer = GetComponent<Renderer>();
     }
 
-    void Dissolve()
+    void Update()
     {
+        if (p_dissolve && _dissolveState <= 2.1f)
+        {
+            Dissolve();
+        }
+        else if (p_unDissolve && _dissolveState > 0)
+        {
+            UnDissolve();
+        }
+    }
+
+    void UnDissolve()
+    {
+        _dissolveState -= 0.02f;
+        _renderer.material.SetFloat("_dissolve", _dissolveState);
+    }
+    
+    void Dissolve()
+    { 
         _dissolveState += 0.02f;
-        GetComponent<Renderer>().material.SetFloat("_dissolve", _dissolveState);
+        _renderer.material.SetFloat("_dissolve", _dissolveState);
     }
 }

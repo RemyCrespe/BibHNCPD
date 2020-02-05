@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 3920637768253690783}
   - component: {fileID: 3920637768253689955}
-  - component: {fileID: 3920637768253690781}
   - component: {fileID: 3920637768253689954}
   m_Layer: 0
   m_Name: MiniGameCamera
@@ -58,7 +57,7 @@ Camera:
     width: 1
     height: 1
   near clip plane: 0
-  far clip plane: 20
+  far clip plane: 11
   field of view: 60
   orthographic: 1
   orthographic size: 1.5
@@ -77,27 +76,6 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
---- !u!114 &3920637768253690781
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3920637768253689952}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1ea6d4ebefd45594bbf4f57e0af8f900, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  target: {fileID: 3920637768447089464}
-  sensitivity: 120
-  offset: {x: 0, y: 0, z: -3}
-  minOffset: {x: 0, y: 0, z: -5}
-  maxOffset: {x: 0, y: 0, z: -1}
-  rotationLimitsX: {x: 0, y: 0}
-  rotationLimitsY: {x: 0, y: 0}
-  limitXRotation: 0
-  limitYRotation: 0
 --- !u!114 &3920637768253689954
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -259,6 +237,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3920637768580428589}
+  - component: {fileID: 6656663420835129004}
   m_Layer: 0
   m_Name: MiniGame
   m_TagString: Untagged
@@ -283,6 +262,25 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6656663420835129004
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3920637768580428594}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b75f95d984fd4024487f11476e333442, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _target: {fileID: 3920637768447089464}
+  _camera: {fileID: 3920637768253689955}
+  _speedX: 180
+  _speedY: 90
+  _speed: 2
+  _distanceBetweenObjectCamera: 2
+  _finalQuaternion: {x: 14, y: 15, z: 0, w: 0}
 --- !u!1 &3920637768943608617
 GameObject:
   m_ObjectHideFlags: 0

@@ -17,51 +17,51 @@ using UnityEngine.UI;
 public class OptionMenu : MonoBehaviour
 {
 
-	public AudioMixer P_audioMixer;
+	public AudioMixer audioMixer;
 
-	public Dropdown P_resolutionDropdown;
+	public Dropdown resolutionDropdown;
 
-	private Resolution[] _resolutions;
+	Resolution[] resolutions;
 
 	
 	void Start ()
 	{
-		_resolutions = Screen.resolutions;
+		resolutions = Screen.resolutions;
 
-		P_resolutionDropdown.ClearOptions();
+		resolutionDropdown.ClearOptions();
 
 		List<string> options = new List<string>();
 
 		int currentResolutionIndex = 0;
 
-		for (int i=0; i < _resolutions.Length; i++)
+		for (int i=0; i < resolutions.Length; i++)
 		{
-			string option = _resolutions[i].width + "x" + _resolutions[i].height;
+			string option = resolutions[i].width + "x" + resolutions[i].height;
 			options.Add(option);
 	
-			if (_resolutions[i].width == Screen.currentResolution.width &&
-			    _resolutions[i].height == Screen.currentResolution.height)
+			if (resolutions[i].width == Screen.currentResolution.width &&
+			    resolutions[i].height == Screen.currentResolution.height)
 			{
 				currentResolutionIndex = i;
 			};
 		};
 
 
-		P_resolutionDropdown.AddOptions(options);
-		P_resolutionDropdown.value = currentResolutionIndex;
-		P_resolutionDropdown.RefreshShownValue();
+		resolutionDropdown.AddOptions(options);
+		resolutionDropdown.value = currentResolutionIndex;
+		resolutionDropdown.RefreshShownValue();
 	}
 
 	public void SetResolution (int resolutionIndex)
 	{
-		Resolution resolution = _resolutions[resolutionIndex];
+		Resolution resolution = resolutions[resolutionIndex];
 
 		Screen.SetResolution(resolution.width, resolution.height, Screen.fullScreen);
 	}
 
    	public void SetVolume(float volume)
 	{
-		P_audioMixer.SetFloat("volume", volume);
+		audioMixer.SetFloat("volume", volume);
 	}
 
 	public void SetFullScreen (bool isFullscreen)
