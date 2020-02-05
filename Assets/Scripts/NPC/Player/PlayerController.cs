@@ -73,10 +73,20 @@ public class PlayerController : MonoBehaviour
         if (_moveHorizontal != 0 || _moveVertical != 0)
         {
             _playerAnimator.SetBool("IsMoving", true);
+            
+            if (!_audioSource.isPlaying)
+            {
+                _audioSource.Play();
+            }
         }
         else
         {
             _playerAnimator.SetBool("IsMoving", false);
+            
+            if (_audioSource.isPlaying)
+            {
+                _audioSource.Stop();
+            }
         }
 
         // Calculate the forward vector
@@ -99,12 +109,7 @@ public class PlayerController : MonoBehaviour
         if (_characterController.isGrounded)
         {
             _moveDir = transform.forward * move.magnitude;
-            _audioSource.Play();
             _moveDir *= _speed;
-        }
-        else
-        {
-            _audioSource.Stop();
         }
 
         _moveDir.y -= _gravity * Time.deltaTime;
