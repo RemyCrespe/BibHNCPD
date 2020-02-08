@@ -183,7 +183,7 @@ MonoBehaviour:
   _movementSpeed: 3
   _distanceToOre: 2
   _rotationSpeed: 240
-  _speed: 15
+  _speed: 30
   _gravity: 20
   P_pickupSpeed: 3
   P_isPicking: 0
