@@ -1,4 +1,6 @@
-﻿using System.Collections;
+﻿
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -22,7 +24,10 @@ public class RobotLight : MonoBehaviour
 
     void Update()
     {
-        if (_dN.p_isDay != _isDay) changeRobotLight();
+        if (_dN.p_isDay != _isDay)
+        {
+            changeRobotLight();
+        }
     }
 
     void changeRobotLight()

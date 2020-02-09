@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ContentModelStore">
-    <e p="C:\Users\Utilisateur\.Rider2019.2\system\extResources" t="IncludeRecursive" />
-    <e p="C:\Users\Utilisateur\.Rider2019.2\system\resharper-host\local\Transient\ReSharperHost\v192\SolutionCaches\_BibHNCPD.172623964.00" t="ExcludeRecursive" />
+    <e p="C:\Users\Utilisateur\.Rider2019.3\system\extResources" t="IncludeRecursive" />
+    <e p="C:\Users\Utilisateur\.Rider2019.3\system\resharper-host\local\Transient\ReSharperHost\v193\SolutionCaches\_BibHNCPD.172623964.00" t="ExcludeRecursive" />
     <e p="D:\PROJET_UNITY\BibHNCPD" t="IncludeRecursive">
       <e p="Assembly-CSharp.csproj" t="IncludeRecursive" />
       <e p="Assets" t="Include">
@@ -29,12 +29,12 @@
           </e>
           <e p="Manager" t="Include">
             <e p="GameManager.cs" t="Include" />
-            <e p="InventoryManager.cs" t="Include" />
-            <e p="NpcManager.cs" t="Include" />
             <e p="SpeManager" t="Include">
+              <e p="InventoryManager.cs" t="Include" />
               <e p="MiniGameManager.cs" t="Include" />
+              <e p="NpcManager.cs" t="Include" />
+              <e p="UIManager.cs" t="Include" />
             </e>
-            <e p="UIManager.cs" t="Include" />
           </e>
           <e p="MiniJeux" t="Include">
             <e p="Antoine" t="Include">

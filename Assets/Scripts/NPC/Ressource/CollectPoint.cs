@@ -5,10 +5,10 @@
 ** 24-01-2020
 ** 
 ** CollectPoint
-** Sert à gérer les points de récoltes comme pour
-** le bois, les minerais ou autre avec une quantité de ressources prédéfinie
-** et au bout d'un temps aléatoire entre 2 valeurs
-** la ressources réaparé si tout à était pris par les pnj
+**     Sert à gérer les points de récoltes comme pour
+**     le bois, les minerais ou autre avec une quantité de ressources prédéfinie
+**     et au bout d'un temps aléatoire entre 2 valeurs
+**     la ressources réaparé si tout à était pris par les pnj
 *******************************************/
 
 using System.Collections;
@@ -19,12 +19,6 @@ public class CollectPoint : MonoBehaviour
 {
     [SerializeField]
     private Resource _resource;
-
-    [SerializeField]
-    private LayerMask _layerMask;
-
-    [SerializeField]
-    private float _timeMining;
 
     [SerializeField]
     private float _minBeforeRespawn = 3f;

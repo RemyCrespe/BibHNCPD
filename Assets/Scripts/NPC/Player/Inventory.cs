@@ -10,14 +10,30 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Inventory : MonoBehaviour
+public class Inventory : Singleton<Inventory>
 {
-    [SerializeField]
-    private List<Ressource> _ressourceTab = new List<Ressource>();
+    [SerializeField] private List<Ressource> _ressourceTab = new List<Ressource>();
 
     public int GetRessourceTabSize()
     {
         return _ressourceTab.Count;
+    }
+
+    public bool GetPositionByName(string name, out int id)
+    {
+        id = -1;
+        for (var index = 0; index < _ressourceTab.Count; index++)
+        {
+            if (!_ressourceTab[index].CompareName(name))
+            {
+                continue;
+            }
+            
+            id = index;
+            return true;
+        }
+        
+        return false;
     }
 
     public int GetRessourceQuantity(int index)

@@ -11,22 +11,23 @@
 
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class Way : MonoBehaviour
 {
-    [SerializeField]
-    private ResourceType _ressourcesType;
+    [Header("Le type de ressources")]
+    [SerializeField] private ResourceType _ressourcesType;
 
-    [SerializeField]
-    private LayerMask _layerMask;
+    [Header("Le layer de l'auto NPC")]
+    [SerializeField] private LayerMask _layerMask;
 
     private List<CollectPoint> _resourceList = new List<CollectPoint>();
 
     private bool _playerGoOnSource = false;
 
-    [SerializeField]
-    private Verif[] _verifRaycast;
+    [Header("La liste de verification")]
+    [SerializeField] private Verif[] _verifRaycast;
 
     private void Start()
     {
@@ -50,6 +51,8 @@ public class Way : MonoBehaviour
         }
     }
 
+    [Header("le point ou le npc doit aller")]
+    [SerializeField] private Transform _go;
     private void Update()
     {
         int position = 0;
@@ -65,11 +68,11 @@ public class Way : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(ray.origin, ray.direction * _verifRaycast[position].P_distance, out hit))
         {
-            if (hit.transform.tag == "Player")
+            if (hit.transform.CompareTag("Player"))
             {
                 if (!_playerGoOnSource)
                 {
-                    NpcManager.P_instance.GoAfterThePlayer(transform.position, _ressourcesType);
+                    NpcManager.P_instance.GoAfterThePlayer(_go.position, _ressourcesType);
                 }
                 else
                 {
@@ -81,27 +84,24 @@ public class Way : MonoBehaviour
             else if (((1 << hit.transform.gameObject.layer) & _layerMask) != 0 && _playerGoOnSource)
             {
                 AutoNPC nPC = hit.transform.GetComponent<AutoNPC>();
-                if (!nPC.P_haveMision)
+                if (nPC.P_haveMision)
+                    return;
+                
+                int takeRessource = Random.Range(0, _resourceList.Count - 1);
+                if (nPC.GetCapacity() <= _resourceList[takeRessource].GetValidRessource())
                 {
-                    int takeRessource = Random.Range(0, _resourceList.Count - 1);
-                    if (nPC.GetCapacity() <= _resourceList[takeRessource].GetValidRessource())
-                    {
-                        nPC.AddCollectPoint(_resourceList[takeRessource]);
-                        _resourceList[takeRessource].AddResourceTake(nPC.GetCapacity());
-                    }
-                    else
-                    {
-                        for (int y = 0; y < _resourceList.Count; y++)
-                        {
-                            if (nPC.GetCapacity() <= _resourceList[y].GetValidRessource())
-                            {
-                                nPC.AddCollectPoint(_resourceList[y]);
-                            }
-                        }
-                    }
-
-                    nPC.P_haveMision = true;
+                    nPC.AddCollectPoint(_resourceList[takeRessource]);
+                    _resourceList[takeRessource].AddResourceTake(nPC.GetCapacity());
                 }
+                else
+                {
+                    foreach (var t in _resourceList.Where(t => nPC.GetCapacity() <= t.GetValidRessource()))
+                    {
+                        nPC.AddCollectPoint(t);
+                    }
+                }
+
+                nPC.P_haveMision = true;
             }
         }
     }

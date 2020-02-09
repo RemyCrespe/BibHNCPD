@@ -24,6 +24,11 @@ public class Ressource
         _ressourceQuantity = quantity;
     }
 
+    public bool CompareName(string name)
+    {
+        return _ressourceName == name;
+    }
+
     public int GetQuantity()
     {
         return _ressourceQuantity;

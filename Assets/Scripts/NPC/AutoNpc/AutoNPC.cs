@@ -19,18 +19,11 @@ using UnityEngine.UI;
 [RequireComponent(typeof(NavMeshAgent))]
 public class AutoNPC : MonoBehaviour
 {
-    [SerializeField]
-    private Mesh[] _meshLevel;
+    [SerializeField] private Material _normal;
+    [SerializeField] private Material _select;
 
-    [SerializeField]
-    private Material _normal;
-    [SerializeField]
-    private Material _select;
-
-    [SerializeField]
-    private int _resourceTake = 1;
-    [SerializeField]
-    private Image _miningTime;
+    [SerializeField] private int _resourceTake = 1;
+    [SerializeField] private Image _miningTime;
 
     private float _initialSpeed;
 
@@ -163,6 +156,13 @@ public class AutoNPC : MonoBehaviour
         }
 
         print("end");
+
+        // if (P_goHome)
+        // {
+        //     var id = 0;
+        //     if (Inventory.P_instance.GetPositionByName(_resourceTake, out id))
+        //         Inventory.P_instance.AddRessourceQuantity();
+        // }
 
         _agent.ResetPath(); // ne lui donne plus de destination
         _moving = false; // ne permet de ne plus bouger

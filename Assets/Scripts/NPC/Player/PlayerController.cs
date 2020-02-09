@@ -1,10 +1,10 @@
 ﻿/********************
-     * LEBLOND Antoine
-     * 20/01/2020
-     * LEBLOND Antoine
-     * Mouvements du joueur en fonction de la caméra, fonction de récupération des ressources, gestion des animations du joueur
-     * Vitesse de déplacement, vitesse de minage
-     * ******************/
+* LEBLOND Antoine
+* 20/01/2020
+* LEBLOND Antoine
+* Mouvements du joueur en fonction de la caméra, fonction de récupération des ressources, gestion des animations du joueur
+* Vitesse de déplacement, vitesse de minage
+******************/
 
 using System.Collections;
 using System.Collections.Generic;

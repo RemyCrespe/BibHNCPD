@@ -50,6 +50,7 @@ public class MiniGameManager : Singleton<MiniGameManager>
         // prend 1 mini jeux de chaque list de mini jeux chacun est différent d'un autre
         for (int i = 0; i < _finalList.Length; i++)
         {
+            _listMiniGame[i].Instance();
             _finalList[i] = _listMiniGame[i].GetGameObjectAle();
         }
     }
@@ -57,21 +58,6 @@ public class MiniGameManager : Singleton<MiniGameManager>
     private bool _isStart = false;
     private void Update()
     {
-        if (Input.GetMouseButtonDown(0) && !_currentObject)
-        {
-            if (CreateMiniGame(1))
-            {    
-                print("Game is Initialise");
-            }
-        }
-        else if (Input.GetKeyDown(KeyCode.E) && !_currentMiniGame)
-        {
-            if (StartMiniGame())
-            {
-                print("Game Start");
-            }
-        }
-        
         // ne lance pas la suite si il n'y a pas de GameObject instancier ou de Mini jeu lancer
         if (!_currentMiniGame || !_currentObject || !_isStart)
         {
@@ -106,9 +92,28 @@ public class MiniGameManager : Singleton<MiniGameManager>
         StartMiniGameToSwitchCamera();
     }
 
-    private void StartGame()
+    private void StartGame(int id)
     {
+        var ressources = _listMiniGame[id];
+        var nameRessource = ressources.GetNameRessourceNecessary();
+        var singletonInventory = Inventory.P_instance;
         
+        var index = 0;
+        if (!singletonInventory.GetPositionByName(nameRessource, out index))
+        {
+            return;
+        }
+        
+        var quantityInventory = singletonInventory.GetRessourceQuantity(index);
+        var quantityNecesary = ressources.GetQuantity();
+
+        if (quantityInventory < quantityNecesary)
+        {
+            return;
+        }
+        
+        singletonInventory.SetRessourceQuantity(index, quantityInventory - quantityNecesary);
+        CreateMiniGame(id);
     }
 
     private IEnumerator WriteTheAwareness(Competence cp, float time)
@@ -211,7 +216,15 @@ public class ListMiniGame
 {
     // la liste qui stock les GameObject des mini jeux
     [SerializeField] private List<GameObject> _list;
+    [SerializeField] private string _nameRessource;
+    [SerializeField] private int _max, _min;
+
+    private int _quantity;
+
+    public void Instance() => _quantity = Random.Range(_min, _max);
 
     // retourne un gameobject pris aléatoirement par l'ordinateur
     public GameObject GetGameObjectAle() => _list[Random.Range(0, _list.Count)];
+    public string GetNameRessourceNecessary() => _nameRessource;
+    public int GetQuantity() => _quantity;
 }
