@@ -90,15 +90,12 @@ public class Resource
 public enum ResourceType
 {
     Ores,
-    Wood,
     Plan
 }
 
 // Enum pour les types plus precis (minerais)
 public enum OresType
 {
-    Charbon,
-    Iron,
-    Wood,
-    Lapis
+    QuartzPink,
+    Iron
 }

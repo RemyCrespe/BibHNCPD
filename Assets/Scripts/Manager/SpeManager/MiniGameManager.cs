@@ -58,6 +58,13 @@ public class MiniGameManager : Singleton<MiniGameManager>
     private bool _isStart = false;
     private void Update()
     {
+        // if (Input.GetMouseButtonDown(0) && !_currentObject)
+        //     StartGame(0);
+        //
+        // if (Input.GetKey(KeyCode.E) && !_isStart)
+        //     if (StartMiniGame())
+        //         print("Start");
+
         // ne lance pas la suite si il n'y a pas de GameObject instancier ou de Mini jeu lancer
         if (!_currentMiniGame || !_currentObject || !_isStart)
         {
@@ -109,6 +116,7 @@ public class MiniGameManager : Singleton<MiniGameManager>
 
         if (quantityInventory < quantityNecesary)
         {
+            print("Ressource non suffisante");
             return;
         }
         
