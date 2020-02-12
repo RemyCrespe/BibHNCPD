@@ -64,7 +64,7 @@ public class MiniGameManager : Singleton<MiniGameManager>
         // if (Input.GetKey(KeyCode.E) && !_isStart)
         //     if (StartMiniGame())
         //         print("Start");
-        if (Input.GetKeyDown(Keycode.E) && _currentMiniGame && _currentObject && !_isStart)
+        if (Input.GetKeyDown(KeyCode.E) && _currentMiniGame && _currentObject && !_isStart)
         {
             StartMiniGame();
         }
