@@ -64,6 +64,10 @@ public class MiniGameManager : Singleton<MiniGameManager>
         // if (Input.GetKey(KeyCode.E) && !_isStart)
         //     if (StartMiniGame())
         //         print("Start");
+        if (Input.GetKeyDown(Keycode.E) && _currentMiniGame && _currentObject && !_isStart)
+        {
+            StartMiniGame();
+        }
 
         // ne lance pas la suite si il n'y a pas de GameObject instancier ou de Mini jeu lancer
         if (!_currentMiniGame || !_currentObject || !_isStart)
