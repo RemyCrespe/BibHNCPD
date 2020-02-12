@@ -15,7 +15,7 @@ public class MainMenu : MonoBehaviour
 {
 	public void PlayGame()
 	{
-		SceneManager.LoadScene("Unity17");
+		SceneManager.LoadScene("Map");
 	}
 
 	public void QuitGame()

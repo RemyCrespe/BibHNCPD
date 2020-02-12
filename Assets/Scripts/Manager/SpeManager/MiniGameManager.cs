@@ -229,7 +229,7 @@ public class MiniGameManager : Singleton<MiniGameManager>
 
             if (recolt)
             {
-                StartMiniGame();
+                StartGame(recolt.GetId());
             }
         }
     }
