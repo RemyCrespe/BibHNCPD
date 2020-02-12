@@ -67,7 +67,7 @@ public class Jeu : MiniGame
             foreach (RaycastResult result in results)
             {
                 RawImage imageClicked = result.gameObject.GetComponent<RawImage>();
-                if (!_imagesSelected.Contains(imageClicked))
+                if (!_imagesSelected.Contains(imageClicked) && imageClicked.CompareTag("ImageGameplay"))
                 {
                     _imagesSelected.Add(imageClicked);
                     if (_imagesSelected.Count == 2)

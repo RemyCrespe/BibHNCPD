@@ -12,7 +12,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.Rendering.Experimental.LookDev;
 using UnityEngine;
 using Random = UnityEngine.Random;
 using UnityEngine.UI;
@@ -64,7 +63,7 @@ public class MiniGameManager : Singleton<MiniGameManager>
         // if (Input.GetKey(KeyCode.E) && !_isStart)
         //     if (StartMiniGame())
         //         print("Start");
-        if (Input.GetKeyDown(KeyCode.E) && _currentMiniGame && _currentObject && !_isStart)
+        if (Input.GetKeyDown(KeyCode.E) && _currentObject && !_isStart)
         {
             StartMiniGame();
         }
@@ -103,28 +102,32 @@ public class MiniGameManager : Singleton<MiniGameManager>
         StartMiniGameToSwitchCamera();
     }
 
+    private Inventory _inventory;
+    
     private void StartGame(int id)
     {
         var ressources = _listMiniGame[id];
         var nameRessource = ressources.GetNameRessourceNecessary();
-        var singletonInventory = Inventory.P_instance;
+
+        print("Enter on Start");
         
-        var index = 0;
-        if (!singletonInventory.GetPositionByName(nameRessource, out index))
+        var index = 1;
+        if (!_inventory.GetPositionByName(nameRessource, out index))
         {
             return;
         }
-        
-        var quantityInventory = singletonInventory.GetRessourceQuantity(index);
+
+        var quantityInventory = _inventory.GetRessourceQuantity(index);
         var quantityNecesary = ressources.GetQuantity();
 
         if (quantityInventory < quantityNecesary)
         {
+            print(quantityNecesary + "    " + quantityInventory + "    " + nameRessource + "    " + index);
             print("Ressource non suffisante");
             return;
         }
         
-        singletonInventory.SetRessourceQuantity(index, quantityInventory - quantityNecesary);
+        _inventory.SetRessourceQuantity(index, quantityInventory - quantityNecesary);
         CreateMiniGame(id);
     }
 
@@ -153,6 +156,8 @@ public class MiniGameManager : Singleton<MiniGameManager>
 
         _dissolve.p_unDissolve = true;
         _dissolve.p_dissolve = false;
+        
+        print("dissolve => " + _dissolve);
 
         // retourne la verification si aucun des object n'est à null
         return _currentObject;
@@ -220,16 +225,22 @@ public class MiniGameManager : Singleton<MiniGameManager>
         SwitchCamera(ca);
         _isStart = !_isStart;
     }
-
-    private void OnTriggerStay(Collider other)
+    
+    private void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "Player")
+        print("Enter stay");
+        
+        if (other.CompareTag("Player"))
         {
-            var recolt = other.GetComponent<RecolteMiniGame>();
+            
+            print("It's player");
+            var recolt = other.GetComponent<PlayerController>();
+
+            _inventory = other.GetComponent<Inventory>();
 
             if (recolt)
             {
-                StartGame(recolt.GetId());
+                StartGame(recolt.GetRecolt().GetId());
             }
         }
     }

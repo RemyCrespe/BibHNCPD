@@ -13,9 +13,10 @@ using UnityEngine.UI;
 
 public class NPC : MonoBehaviour
 {
+    [TextArea(7, 3)]
     [SerializeField]
     private string P_pnjDialogueText;
-
+    
     [SerializeField]
     private Text P_dialogueText;
 

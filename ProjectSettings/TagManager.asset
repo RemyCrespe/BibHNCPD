@@ -10,6 +10,8 @@ TagManager:
   - Pink Quartz
   - Ennemy
   - Plan
+  - Cube
+  - ImageGameplay
   layers:
   - Default
   - TransparentFX

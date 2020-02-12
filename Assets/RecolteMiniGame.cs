@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -8,11 +9,15 @@ public class RecolteMiniGame : MonoBehaviour
 
     public int GetId() => _idMiniGame;
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collider other)
     {
-        if (collision.transform.tag == "Player")
+        print("enter trigger");
+
+        if (other.CompareTag("Player"))
         {
-            var script = GetComponent<PlayerController>();
+            var script = other.GetComponent<PlayerController>();
+            
+            print("it's a player + " + script);
 
             script.AddRecolt(this);
 

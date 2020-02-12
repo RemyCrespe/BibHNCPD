@@ -16,6 +16,10 @@ public class Singleton<T> : MonoBehaviour where T : Singleton<T>
         {
             P_instance = (T)this; // put this on the Instance
         }
+        else
+        {
+            Debug.LogError("Instance d'un autre : " + typeof(T));
+        }
 
         if (_dontDestroyOnLoad)
         {

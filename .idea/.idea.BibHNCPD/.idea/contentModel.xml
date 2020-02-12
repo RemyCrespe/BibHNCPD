@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ContentModelStore">
-    <e p="C:\Users\Romua\.Rider2019.3\system\extResources" t="IncludeRecursive" />
-    <e p="C:\Users\Romua\.Rider2019.3\system\resharper-host\local\Transient\ReSharperHost\v193\SolutionCaches\_BibHNCPD.972304509.00" t="ExcludeRecursive" />
-    <e p="C:\Users\Romua\Desktop\BibHNCPD" t="IncludeRecursive">
+    <e p="C:\Users\Utilisateur\.Rider2019.3\system\extResources" t="IncludeRecursive" />
+    <e p="C:\Users\Utilisateur\.Rider2019.3\system\resharper-host\local\Transient\ReSharperHost\v193\SolutionCaches\_BibHNCPD.172623964.00" t="ExcludeRecursive" />
+    <e p="D:\PROJET_UNITY\BibHNCPD" t="IncludeRecursive">
       <e p="Assembly-CSharp.csproj" t="IncludeRecursive" />
       <e p="Assets" t="Include">
+        <e p="RecolteMiniGame.cs" t="Include" />
         <e p="Script" t="Include">
           <e p="AudioManager.cs" t="Include" />
           <e p="PannelOpener.cs" t="Include" />
@@ -16,7 +17,12 @@
         <e p="Scripts" t="Include">
           <e p="GameManager.cs" t="Include" />
           <e p="LD" t="Include">
+            <e p="Actioner.cs" t="Include" />
+            <e p="obj_interaction.cs" t="Include" />
+            <e p="obj_ventilation.cs" t="Include" />
+            <e p="Perso_Interact.cs" t="Include" />
             <e p="perso_move.cs" t="Include" />
+            <e p="SpawnManager.cs" t="Include" />
             <e p="UI_Manager.cs" t="Include" />
           </e>
           <e p="LI" t="Include">
@@ -24,7 +30,6 @@
             <e p="FollowPlayer.cs" t="Include" />
             <e p="MiniGameDissolve.cs" t="Include" />
             <e p="RandomWeather.cs" t="Include" />
-            <e p="SpawnManager.cs" t="Include" />
             <e p="UraniumLight.cs" t="Include" />
           </e>
           <e p="Manager" t="Include">
@@ -40,6 +45,10 @@
             <e p="Antoine" t="Include">
               <e p="GameImage.cs" t="Include" />
               <e p="Jeu.cs" t="Include" />
+            </e>
+            <e p="Lino" t="Include">
+              <e p="Point.cs" t="Include" />
+              <e p="Polygon2D.cs" t="Include" />
             </e>
             <e p="MiniGame.cs" t="Include" />
           </e>
@@ -78,6 +87,10 @@
             <e p="OptionMenu.cs" t="Include" />
           </e>
         </e>
+        <e p="Shaders" t="Include">
+          <e p="MyFlatWireframe.cginc" t="Include" />
+        </e>
+        <e p="WireFrameNoise.shader" t="Include" />
       </e>
       <e p="BibHNCPD.sln" t="IncludeFlat" />
       <e p="obj" t="ExcludeRecursive" />
