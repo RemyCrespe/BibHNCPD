@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-/*******************************
+﻿/*******************************
 ** RICOU Julie
 ** Jeudi 23 janvier
 ** Gere la disparition du blueprint apres le mini jeu
@@ -12,6 +7,12 @@ using UnityEngine;
 ** p_dissolve : permet de savoir si le blueprint doit être dissout ou non
 ** _dissolveState : permet de savoir ou on en est dans la dissolution
 *******************************/
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+
 
 
 public class MiniGameDissolve : MonoBehaviour

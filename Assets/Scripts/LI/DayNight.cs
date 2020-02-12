@@ -1,9 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-
-/*******************************
+﻿/*******************************
 ** RICOU Julie
 ** Jeudi 23 janvier
 ** Gere le cycle jour / nuit
@@ -16,6 +11,12 @@ using UnityEngine;
 ** _fogMaxDist : distance du brouillard (intensite) pour differents temps
 ** _fogColor : couleur du brouillard pour differents temps
 *******************************/
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+
+
 
 
 public class DayNight : Singleton<DayNight>

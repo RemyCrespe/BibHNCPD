@@ -1,13 +1,11 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-
-/*******************************
+﻿/*******************************
 ** RICOU Julie
 ** Vendredi 24 janvier
 ** Gere le changement aleatoire de meteo
 *******************************/
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 
 
 public class RandomWeather : MonoBehaviour

@@ -1,9 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-
-/*******************************
+﻿/*******************************
 ** RICOU Julie
 ** Jeudi 23 janvier
 ** Gere la radiation de l uranium
@@ -13,6 +8,10 @@ using UnityEngine;
 ** _maxIntensity : intensite maximum de la radiation
 ** _duree : duree de la radiation
 *******************************/
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
 
 
 public class UraniumLight : MonoBehaviour

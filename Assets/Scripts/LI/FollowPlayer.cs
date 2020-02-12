@@ -1,9 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-
-/*******************************
+﻿/*******************************
 ** RICOU Julie
 ** Vendredi 24 janvier
 ** Gere le deplacement des elements de meteo en fonction du joueur
@@ -11,7 +6,9 @@ using UnityEngine;
 ** Parametres :
 ** _player : le joueur
 *******************************/
-
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 
 public class FollowPlayer : MonoBehaviour
 { 
