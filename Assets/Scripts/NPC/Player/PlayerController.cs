@@ -169,4 +169,6 @@ public class PlayerController : MonoBehaviour
             print(_targetInventory.GetRessourceQuantity(i));
         }
     }
+
+ 
 }
