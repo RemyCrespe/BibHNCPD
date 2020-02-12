@@ -6,13 +6,15 @@ public class RecolteMiniGame : MonoBehaviour
 {
     [SerializeField] private int _idMiniGame;
 
+    public int GetId() => _idMiniGame;
+
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.transform.tag == "Player")
         {
             var script = GetComponent<PlayerController>();
 
-            script.AddRecolte(this);
+            script.AddRecolt(this);
 
             gameObject.SetActive(false);
         }

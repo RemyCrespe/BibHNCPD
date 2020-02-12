@@ -216,6 +216,19 @@ public class MiniGameManager : Singleton<MiniGameManager>
         SwitchCamera(ca);
         _isStart = !_isStart;
     }
+
+    private void OnTriggerStay(Collider other)
+    {
+        if (other.tag == "Player")
+        {
+            var recolt = other.GetComponent<RecolteMiniGame>();
+
+            if (recolt)
+            {
+                CreateMiniGame(recolt.GetId());
+            }
+        }
+    }
 }
 
 // classe permettant de mettre les mini avec leurs variantes

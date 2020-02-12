@@ -14,6 +14,8 @@ public class PlayerController : MonoBehaviour
 {
     private CharacterController _characterController;
 
+    private RecolteMiniGame _recolteMiniGame;
+
     [SerializeField]
     private AudioSource _audioSource;
 
@@ -54,6 +56,9 @@ public class PlayerController : MonoBehaviour
         _playerInventory = GetComponent<Inventory>();
         _playerAnimator = GetComponent<Animator>();
     }
+
+    public RecolteMiniGame GetRecolt() => _recolteMiniGame;
+    public void AddRecolt(RecolteMiniGame recolt) => _recolteMiniGame = recolt;
 
     void Update()
     {
