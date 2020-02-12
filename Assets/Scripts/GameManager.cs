@@ -19,6 +19,9 @@ public class GameManager : Singleton<GameManager>
     private string _nameCurrentScene;
     private GameState _gameState = GameState.Menu;
 
+    private static GameManager p_instance = null;
+    public static GameManager Instance { get { return p_instance; } }
+
     private uint p_nbScenes;
     public uint NbScenes { get { return p_nbScenes; } }    
 
@@ -38,6 +41,17 @@ public class GameManager : Singleton<GameManager>
 
     void Awake()
     {
+        //Check if instance already exists
+        if (p_instance == null)
+        {
+            p_instance = this;
+        }
+
+        else if (p_instance != this)
+        {
+            Destroy(gameObject);
+        }
+
         foreach (string _scene_name in arr_SceneName)
         {
             p_list_Scenes.Add(_scene_name);
