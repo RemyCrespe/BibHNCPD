@@ -1,4 +1,8 @@
-﻿using System.Collections;
+﻿/*******************************
+** BLONDELLE Lino
+** Permet de fabriquer la forme, déplacer les points
+*******************************/
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;

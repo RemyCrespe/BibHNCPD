@@ -1,5 +1,7 @@
-﻿//using System.Collections;
-//using System.Collections.Generic;
+﻿/*******************************
+** BLONDELLE Lino
+** Définit les points qui compose le polygone 2D
+*******************************/
 using UnityEngine;
 
 [System.Serializable]
